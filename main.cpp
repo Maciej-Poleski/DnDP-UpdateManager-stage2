@@ -12,11 +12,15 @@ int main(int argc,char**argv)
 	char *path=new char[_MAX_DIR];
 	_splitpath(fullPath,driveLetter,path,NULL,NULL);
 	free(fullPath);
+#ifdef _M_X64
+	char *bits="amd64";
+#else
 	char *bits=getenv("PROCESSOR_ARCHITECTURE");
 	if(!bits)
-		bits="PROCESSOR_ARCHITECTURE is empty";
+		bits="\"PROCESSOR_ARCHITECTURE is empty\"";
 	else if(strcmp(bits,"")==0)
-		bits="PROCESSOR_ARCHITECTURE is empty";
+		bits="\"PROCESSOR_ARCHITECTURE is empty\"";
+#endif
 
 	string workingCopy=driveLetter;
 	workingCopy+=path;
