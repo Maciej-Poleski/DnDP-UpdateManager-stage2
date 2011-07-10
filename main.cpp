@@ -1,3 +1,4 @@
+#ifdef _WIN32
 #include <iostream>
 #include <cstdlib>
 #include <process.h>
@@ -5,8 +6,13 @@
 
 using namespace std;
 
+#else
+
+#endif
+
 int main(int argc,char**argv)
 {
+#ifdef _WIN32
 	char *fullPath=_fullpath(NULL,argv[0],0);
 	char *driveLetter=new char[_MAX_DRIVE];
 	char *path=new char[_MAX_DIR];
@@ -31,4 +37,7 @@ int main(int argc,char**argv)
 	_spawnlp(_P_WAIT,"java","java","-cp",(string("\"")+workingCopy+"lib\\UpdateManager.jar\"").c_str(),"org.dndp.UpdateManager.Launcher",(string("\"")+workingCopy+"\\\"").c_str(),bits,NULL);
 
 	return 0;
+#else
+
+#endif
 }
