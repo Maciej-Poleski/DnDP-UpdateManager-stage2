@@ -63,7 +63,7 @@ int main(int argc,char**argv,char**envp)
 	char *tmppath=dirname(path);
 	strcpy(path,tmppath);
 	const char* updateManager_jar="/lib/UpdateManager.jar";
-	char *jar=new char[strlen(path)+sizeof(updateManager_jar)];
+	char *jar=(char*)malloc(strlen(path)+strlen(updateManager_jar)+1);
 	strcpy(jar,path);
 	strcat(jar,updateManager_jar);
 
@@ -90,8 +90,10 @@ int main(int argc,char**argv,char**envp)
 	int state;
 	waitpid(proc1,&state,0);
 
-	delete [] jar;
 
+        free(jar);
+        free(path);
+        
 	return 0;
 #endif
 }
