@@ -7,7 +7,7 @@
 using namespace std;
 
 #else
-/* ¯¹dam X/Open System Interface */
+/* Żądam X/Open System Interface */
 #define _XOPEN_SOURCE 700
 #include <cstdlib>
 #include <cerrno>
@@ -18,13 +18,13 @@ using namespace std;
 #include <spawn.h>
 #include <sys/wait.h>
 
-/* Sprawdzam, czy moje ¿¹danie zostan¹ spe³nione */
+/* Sprawdzam, czy moje żądanie zostanie spełnione */
 #if _XOPEN_VERSION != 700
 #error Ten kompilator nie jest zgodny z XSI SUSv4
 #error Nie mogê kontynuowaæ
 #endif
 
-/* Sprawdzam, czy posix_spawn() jest dostêpna */
+/* Sprawdzam, czy posix_spawn() jest dostępna */
 #if !defined(_POSIX_SPAWN)
 #error Ten kompilator nie obs³uguje posix_spawn()
 #error Nie mogê kontynuowaæ
@@ -93,7 +93,7 @@ int main(int argc,char**argv,char**envp)
 
         free(jar);
         free(path);
-        
+
 	return 0;
 #endif
 }
