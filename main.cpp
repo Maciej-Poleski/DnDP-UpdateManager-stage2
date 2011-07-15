@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <process.h>
 #include <string>
+#include <direct.h>
 
 using namespace std;
 
@@ -21,13 +22,13 @@ using namespace std;
 /* Sprawdzam, czy moje żądanie zostanie spełnione */
 #if _XOPEN_VERSION != 700
 #error Ten kompilator nie jest zgodny z XSI SUSv4
-#error Nie mogê kontynuowaæ
+#error Nie mogę kontynuować
 #endif
 
 /* Sprawdzam, czy posix_spawn() jest dostępna */
 #if !defined(_POSIX_SPAWN)
-#error Ten kompilator nie obs³uguje posix_spawn()
-#error Nie mogê kontynuowaæ
+#error Ten kompilator nie obsługuje posix_spawn()
+#error Nie mogę kontynuować
 #endif
 #endif
 
@@ -55,9 +56,18 @@ int main(int argc,char**argv,char**envp)
 	delete [] driveLetter;
 	delete [] path;
 
-	_spawnlp(_P_WAIT,"java","java","-cp",(string("\"")+workingCopy+"lib\\UpdateManager.jar\"").c_str(),"org.dndp.UpdateManager.Launcher",(string("\"")+workingCopy+"\\\"").c_str(),bits,NULL);
+	printf("Przeprowadzanie aktualizacji... ");
+	fflush(stdout);
+	if(_spawnlp(_P_WAIT,"java","java","-cp",(string("\"")+workingCopy+"lib\\UpdateManager.jar\"").c_str(),"org.dndp.UpdateManager.Launcher",(string("\"")+workingCopy+"\\\"").c_str(),bits,NULL))
+		printf("Niepowodzenie\n");
+	else
+		printf("Gotowe!\n");
+	fflush(stdout);
 
-	return 0;
+	_chdir(workingCopy.c_str());
+	_spawnlp(_P_DETACH,"java","java","-classpath","lib\\commands-3.6.0.jar;lib\\common-3.6.0.jar;lib\\db4o-full-java5-7.12.jar;lib\\dndc-0.2-SNAPSHOT.jar;lib\\engine-0.2-SNAPSHOT.jar;lib\\jface-3.6.0.jar;lib\\swt.jar","org.dndp.dndc.client.Main",NULL);
+	
+	return 0;	// To nigdy się nie wydarzy!
 #else
 	char * path=realpath(argv[0],NULL);
 	char *tmppath=dirname(path);
